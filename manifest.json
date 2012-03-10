@@ -1,0 +1,17 @@
+{ 
+		"name": "tab-closer",
+		"version": "1.0",
+		"description": "Closes some of your extra tabs",
+    "incognito": "spanning",
+    "icons": { "16": "trash-16.png",
+      "48": "trash-48.png",
+      "128": "trash-128.png" },
+		"browser_action": {
+						"default_icon": "trash-16.png"
+		},
+		"background_page": "background.html",
+    "options_page": "options.html",
+		"permissions": [
+				"tabs"
+		]
+}
