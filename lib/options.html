@@ -52,6 +52,7 @@
 
 
   </style>
+  <script type="text/javascript" src="util.js"></script>
   <script>
     function validate_matcher(str) {
       if (str.match(/(\*|http|https|ftp|file):\/\/(\*|(\*\.)?[^\/\*\,]+)\/.*/)){
@@ -98,13 +99,13 @@
     }
 
     function load_matchers() {
-      if (!localStorage["tab-close-init"]) {
-        localStorage["tab-closer-matchers"] = "*://www.google.com/*,*://www.google.ca/*";
-        localStorage["tab-close-init"] = "true";
-      }
+      init();
       var a = localStorage["tab-closer-matchers"].split(",");
       if (!a) {
         return;
+      }
+      if (localStorage["tab-closer-window-setting"] === "true") {
+        document.getElementById("windowSetting").checked = true;
       }
       var options = document.getElementById("matchers");
       for (var i=0; i < a.length; i++) {
