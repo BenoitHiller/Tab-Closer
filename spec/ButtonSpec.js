@@ -1,3 +1,4 @@
+var localStorage;
 var chrome = function(){};
 chrome.tabs = function(){};
 chrome.windows = function(){};
@@ -23,7 +24,7 @@ chrome.windows.getCurrent = function(func) {
 
 describe('Button', function () {
   beforeEach(function () {
-    var localStorage = {};
+    localStorage = {};
     init();
   });
 
