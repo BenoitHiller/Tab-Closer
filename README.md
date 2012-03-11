@@ -8,7 +8,7 @@ Installation
 
 1. Clone the repository.
 2. Open the extensions menu and make sure the developer mode box is clicked
-3. Load the folder using the "load unpacked extension" button.
+3. Load the lib folder using the "load unpacked extension" button.
 
 Usage
 -----
