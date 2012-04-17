@@ -6,11 +6,17 @@ This is a simple extension for google chrome that lets you close a bunch of simi
 Installation
 ------------
 
+Either you can find it at the [chrome web store](https://chrome.google.com/webstore/detail/ddiocgohagfofhclbpnmlhgboacoiaic/) and install it there with one click.
+
+Or you can install the version hosted here with the following steps:
+
 1. Clone the repository.
 2. Open the extensions menu and make sure the developer mode box is clicked
 3. Load the lib folder using the "load unpacked extension" button.
 
 Usage
 -----
+
+Click the button on the chrome bar to close all the tabs that match your settings.
 
 Check out the options page for info about setting up the matchers, then complain to me about features you think it needs.
