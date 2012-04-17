@@ -1,12 +1,12 @@
 { 
 		"name": "tab-closer",
-		"version": "1.0",
-		"description": "Closes some of your extra tabs",
+		"version": "1.1",
+		"description": "Close some of your extra tabs",
     "incognito": "spanning",
     "content_security_policy": "default-src 'self' 'unsafe-inline' ",
     "icons": { "16": "trash-16.png",
       "48": "trash-48.png",
-      "128": "trash-128.png" },
+      "128": "trash-128-store.png" },
 		"browser_action": {
 						"default_icon": "trash-16.png"
 		},
