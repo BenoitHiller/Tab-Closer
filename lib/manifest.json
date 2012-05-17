@@ -12,6 +12,7 @@
 		},
 		"background_page": "background.html",
     "options_page": "options.html",
+    "omnibox": {"keyword" : "c"},
 		"permissions": [
 				"tabs"
 		]

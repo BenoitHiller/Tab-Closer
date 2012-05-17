@@ -53,97 +53,52 @@
 
   </style>
   <script type="text/javascript" src="util.js"></script>
+  <script type="text/javascript" src="matcher.js"></script>
   <script>
-    function validate_matcher(str) {
-      if (str.match(/(\*|http|https|ftp|file):\/\/(\*|(\*\.)?[^\/\*\,]+)\/.*/)){
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
     function notify(text) {
       var notification = document.getElementById("notifications");
       notification.innerText = text;
       notification.style.display = "block";
     }
 
-    function save_matchers() {
-      var a = [];
+    function save_settings(manager) {
       var syntax_error = false;
       var options = document.getElementById("matchers");
       var window_setting = document.getElementById("windowSetting");
-      if (options.children) {
-        for (var i=0; i < options.children.length; i++) {
-          a[i] = options.children[i].children[0].value;
-          if (!validate_matcher(options.children[i].children[0].value)) {
-            options.children[i].className+=" error";
-            syntax_error = true; 
-          }
-          else {
-            options.children[i].className="matcher";
-          }
-        }
-        if (syntax_error) {
-          notify("Could not save settings! There are errors in your matchers.");
-        }
-        else {
-          notify("Settings saved successfully."); 
-          localStorage["tab-closer-window-setting"] = window_setting.checked; 
-          localStorage["tab-closer-matchers"] = a;
-        }
+      var regex_setting = document.getElementById("regexSetting");
+      syntax_error = manager.save_matchers(regex_setting.checked);
+      if (!syntax_error) {
+        notify("Could not save settings! There are errors in your matchers.");
       }
       else {
-        notify("Settings saved but there are no matchers so it probably won't do anything.");
-      }
-    }
-
-    function load_matchers() {
-      init();
-      var a = localStorage["tab-closer-matchers"].split(",");
-      if (!a) {
-        return;
-      }
-      if (localStorage["tab-closer-window-setting"] === "true") {
-        document.getElementById("windowSetting").checked = true;
-      }
-      var options = document.getElementById("matchers");
-      for (var i=0; i < a.length; i++) {
-        if (!options.children[i]) {
-          add_matcher(a[i]);
+        localStorage["window-setting"] = window_setting.checked; 
+        localStorage["regex-setting"] = regex_setting.checked; 
+        if (manager) {
+          notify("Settings saved successfully."); 
         }
         else {
-          options.children[i].setAttribute("value",a[i]);
+          notify("Settings saved but there are no matchers so it probably won't do anything.");
+          }
         }
-      }
     }
 
-    function add_matcher(text) {
-      if (!text) {
-        var text = "";
+    function load_matchers(manager) {
+      init();
+      if (localStorage["window-setting"] === "true") {
+        document.getElementById("windowSetting").checked = true;
       }
-      var matchers = document.getElementById("matchers")
-
-      var matcher_box = document.createElement("div");
-      matcher_box.setAttribute("class","matcher");
-
-      var text_field = document.createElement("input");
-      text_field.setAttribute("type","text");
-      text_field.setAttribute("value",text);
-
-      var delete_button = document.createElement("button");
-      delete_button.onclick = function() {
-        matchers.removeChild(matcher_box);
-      }
-      delete_button.innerText = "delete";
-
-      matchers.appendChild(matcher_box);
-      matcher_box.appendChild(text_field);
-      matcher_box.appendChild(delete_button);
-      return text_field;
+      manager.load_matchers();
     }
+
+    var pageManager = new MatcherManager(false)
+
+    function setup(manager) {
+      manager.add_to_page('matchers');
+      load_matchers(manager);
+    }
+
   </script>
-  <body onload="load_matchers()">
+  <body onload="setup(pageManager)">
     <div id="header"><h1>Tab Closer Settings</h1></div>
     <div id="content">
       <div id="help">
@@ -178,12 +133,13 @@
         <div id="notifications"></div>
         <h2>Settings:</h2>
         <input type="checkbox" id="windowSetting" name="windowSetting" value="onlyThis"> Close tabs only in current window.<br>
+        <input type="checkbox" id="regexSetting" name="regexSetting" value="onlyThis"> Use slower regex matching.<br>
         <h2>Matchers:</h2>
         <div id="matchers">
         </div>
         <br>
-        <button onclick="add_matcher()">Add</button>
-        <button onclick="save_matchers()">Save</button>
+        <button onclick="pageManager.add_matcher_to_page(pageManager.add_matcher())">Add</button> <!--XXX update to reflect new location of regex option -->
+        <button onclick="save_settings(pageManager)">Save</button>
       </div>
     </div>
   </body>
