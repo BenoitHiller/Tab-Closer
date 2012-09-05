@@ -1,16 +1,18 @@
 { 
 		"name": "tab-closer",
 		"version": "1.1",
+    "manifest_version": 2,
 		"description": "Close some of your extra tabs",
     "incognito": "spanning",
-    "content_security_policy": "default-src 'self' 'unsafe-inline' ",
     "icons": { "16": "trash-16.png",
       "48": "trash-48.png",
       "128": "trash-128-store.png" },
 		"browser_action": {
 						"default_icon": "trash-16.png"
 		},
-		"background_page": "background.html",
+		"background": {
+      "page": "background.html"
+    },
     "options_page": "options.html",
     "omnibox": {"keyword" : "c"},
 		"permissions": [

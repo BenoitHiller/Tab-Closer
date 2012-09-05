@@ -35,6 +35,21 @@
       size:100%;
       background-color:white;
     }
+    .switcher-button {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    #switcher-control {
+      margin-left: -5px;
+      margin-bottom: 10px;
+    }
+    #switcher-control a {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    #switcher-control a:hover {
+      cursor:pointer;
+    }
     #settings {
       size:100%;
       margin-left:30px;
@@ -54,75 +69,44 @@
   </style>
   <script type="text/javascript" src="util.js"></script>
   <script type="text/javascript" src="matcher.js"></script>
-  <script>
-    function notify(text) {
-      var notification = document.getElementById("notifications");
-      notification.innerText = text;
-      notification.style.display = "block";
-    }
-
-    function save_settings(manager) {
-      var syntax_error = false;
-      var options = document.getElementById("matchers");
-      var window_setting = document.getElementById("windowSetting");
-      var regex_setting = document.getElementById("regexSetting");
-      syntax_error = manager.save_matchers();
-      if (!syntax_error) {
-        notify("Could not save settings! There are errors in your matchers.");
-      }
-      else {
-        localStorage["window-setting"] = window_setting.checked; 
-        if (manager) {
-          notify("Settings saved successfully."); 
-        }
-        else {
-          notify("Settings saved but there are no matchers so it probably won't do anything.");
-          }
-        }
-    }
-
-    function load_matchers(manager) {
-      init();
-      if (localStorage["window-setting"] === "true") {
-        document.getElementById("windowSetting").checked = true;
-      }
-      manager.load_matchers();
-    }
-
-    var pageManager = new MatcherManager(false)
-
-    function setup(manager) {
-      manager.add_to_page('matchers');
-      load_matchers(manager);
-    }
-
-    function toggle_help(id) {
-      var divs = document.getElementById("switcher").children;
-      var open_after;
-      for (i=0;i< divs.length; i++) {
-        if (divs[i].id == id) {
-          open_after = i;
-        }
-        divs[i].style.display = "none";
-      }
-      divs[open_after].style.display = "";
-    }
+  <script type="text/javascript" src="options.js">
 
   </script>
-  <body onload="setup(pageManager)">
+  <body>
     <div id="header"><h1>Tab Closer Settings</h1></div>
     <div id="content">
       <div id="help">
         <h2>Help</h2>
+        <div id="switcher-control">
+          <span class="switcher-button" ><a id="info-button" >Info</a></span>
+          <span class="switcher-button" ><a id="regex-button" >Regex</a></span>
+          <span class="switcher-button"><a id="matcher-button">Matchers</a></span>
+        </div>
         <div id="switcher">
-          <div id="test" style="display:none">
-            test
+          <div id="general-help">
+            Tab closer currently provides two exciting features for your enjoyment:
+            <h3>Predefined Matchers</h3>
+            On the right you can define several different patterns. When you click on our button the extensions will close all the tabs it can find that match the patterns you have put in.
+            <br>
+            Be sure to look through the regex help before trying it out on anything important. Regular expressions have a few simple quirks that can trip up beginners.
+            <h3>Omnibar Tab Closing</h3>
+            If you type <pre>c *spacebar*</pre> into the omnibar you will be presented with the tab-closer prompt.
+            <br>
+            The prompt lets you type in a regular expression that will get run over all of your tabs. Anything that matches it, either in the title or in the url, will be closed.
           </div>
-          <div id="matcher-help">
-            When you click on the garbage can icon the extension will close all of your open pages that match one of the URL matchers on the left.
+          <div id="regex-help" style="display:none">
+            With Regex matchers all you need to do is type in a regular expression that matches any portion of the url or title you want to close.
+            <br>
+            If you do not know regular expressions I would strongly suggest you take the time to learn. Rather than attempt to teach you now I will provide instead the following:
+            <h3>How to use Regex without knowing what they are</h3>
+            The simplest way to use regular expressions is just to type in characters and it will match anything with exactly those characters. e.g. "www" will match any site with www in its url.
+            <br>
+            All of the powerful features of regex come from using special characters. The characters: <pre>( ) [ ] . { } ? \ * + | ^ $</pre> all serve some special purpose. To use them as normal characters you put a \ in front of them. e.g. "www\.google\.com" will match 
+          </div>
+          <div id="matcher-help" style="display:none">
+            I have left in the ability to use chrome's built in system for searching through tabs as opposed to the one I hacked together.
             <br> 
-            <br> 
-            I am just using the tab api directly at the moment so your matchers must have to have the following form:
+            To use chrome matchers your patterns have to have the following form:
         <pre>PROTOCOL://HOST/PATH</pre>
 
             Where PROTOCOL can be any of:
@@ -155,8 +139,8 @@
         <div id="matchers">
         </div>
         <br>
-        <button onclick="pageManager.add_matcher_to_page(pageManager.add_matcher())">Add</button> <!--XXX update to reflect new location of regex option -->
-        <button onclick="save_settings(pageManager)">Save</button>
+        <button id="add_matcher">Add</button> <!--XXX update to reflect new location of regex option -->
+        <button id="save_matchers">Save</button>
       </div>
     </div>
   </body>
