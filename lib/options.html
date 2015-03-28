@@ -21,17 +21,17 @@
     #content {
       position:relative;
       height:auto;
-      width:630px;
       margin-left:50px;
     }
-    #help,#settings {
+    .help,#settings {
       float:left;
       height: auto;
-      width: 300px;
       float:left;
       text-align:left;
+      margin-left:30px;
     }
-    #help {
+    .help {
+      width: 300px;
       size:100%;
       background-color:white;
     }
@@ -52,7 +52,7 @@
     }
     #settings {
       size:100%;
-      margin-left:30px;
+      width: 250px;
     }
     #notifications {
       padding-top:15px;
@@ -75,59 +75,18 @@
   <body>
     <div id="header"><h1>Tab Closer Settings</h1></div>
     <div id="content">
-      <div id="help">
+      <div class="help">
         <h2>Help</h2>
-        <div id="switcher-control">
-          <span class="switcher-button" ><a id="info-button" >Info</a></span>
-          <span class="switcher-button" ><a id="regex-button" >Regex</a></span>
-          <span class="switcher-button"><a id="matcher-button">Matchers</a></span>
-        </div>
-        <div id="switcher">
           <div id="general-help">
             Tab closer currently provides two exciting features for your enjoyment:
             <h3>Predefined Matchers</h3>
-            On the right you can define several different patterns. When you click on our button the extensions will close all the tabs it can find that match the patterns you have put in.
-            <br>
-            Be sure to look through the regex help before trying it out on anything important. Regular expressions have a few simple quirks that can trip up beginners.
+            On the right you can define several different patterns. When you click on the extension button the extensions will close all the tabs it can find that match the patterns you have put in.
             <h3>Omnibar Tab Closing</h3>
+            New in this version is the abillity to close tabs using an omnibar command.
+            <br><br>
             If you type <pre>c *spacebar*</pre> into the omnibar you will be presented with the tab-closer prompt.
-            <br>
-            The prompt lets you type in a regular expression that will get run over all of your tabs. Anything that matches it, either in the title or in the url, will be closed.
-          </div>
-          <div id="regex-help" style="display:none">
-            With Regex matchers all you need to do is type in a regular expression that matches any portion of the url or title you want to close.
-            <br>
-            If you do not know regular expressions I would strongly suggest you take the time to learn. Rather than attempt to teach you now I will provide instead the following:
-            <h3>How to use Regex without knowing what they are</h3>
-            The simplest way to use regular expressions is just to type in characters and it will match anything with exactly those characters. e.g. "www" will match any site with www in its url.
-            <br>
-            All of the powerful features of regex come from using special characters. The characters: <pre>( ) [ ] . { } ? \ * + | ^ $</pre> all serve some special purpose. To use them as normal characters you put a \ in front of them. e.g. "www\.google\.com" will match 
-          </div>
-          <div id="matcher-help" style="display:none">
-            I have left in the ability to use chrome's built in system for searching through tabs as opposed to the one I hacked together.
-            <br> 
-            To use chrome matchers your patterns have to have the following form:
-        <pre>PROTOCOL://HOST/PATH</pre>
-
-            Where PROTOCOL can be any of:
-            <ul>
-              <li>*</l>
-              <li>http</li>
-              <li>https</li>
-              <li>file</li>
-              <li>ftp</li>
-            </ul>
-
-            The * is a wildcard and it will match any of the other options.
-            <br>
-            <br>
-            HOST is any valid address. You can use a *. at the begining only to match anything string to the left of the period.
-            <br>
-            <br>
-            PATH can be any string with wildcards anywhere within it.
-            <br>
-            <br>
-            You can check out <a href="http://code.google.com/chrome/extensions/match_patterns.html">Google's page</a> on the topic for examples or a more thorough description.
+            <br><br>
+            In this prompt you can type in a regular expression. When you press enter any tab that matches the expression, either in the title or in the url, will be closed.
           </div>
         </div>
       </div>
@@ -141,6 +100,39 @@
         <br>
         <button id="add_matcher">Add</button> <!--XXX update to reflect new location of regex option -->
         <button id="save_matchers">Save</button>
+      </div>
+      <div class="help">
+        <h2>Writing Matchers</h2>
+        By default you specify URL matchers in the following format:
+        <pre>PROTOCOL://HOST/PATH</pre>
+
+        Where PROTOCOL can be any of:
+        <ul>
+          <li>*</l>
+          <li>http</li>
+          <li>https</li>
+          <li>file</li>
+          <li>ftp</li>
+        </ul>
+
+        The * is a wildcard and it will match any of the other options.
+        <br>
+        <br>
+        HOST is any valid address. You can use a *. at the begining only to match anything string to the left of the period.
+        <br>
+        <br>
+        PATH can be any string with wildcards anywhere within it.
+        <br>
+        <br>
+        You can check out <a href="http://code.google.com/chrome/extensions/match_patterns.html">Google's page</a> on the topic for examples or a more thorough description.
+      </div>
+      <div class="help">
+        <h2>Regex Matching</h2>
+        If you click the regex checkbox below a matcher it will allow you to specify any regular expression and close all tabs whose URLs match that.
+        <br><br>
+        If you don't know what a regular expression is, it is a language that is used for specifying search patterns.
+        <br><br>
+        It is a bit complex for me to fit into this help but if you are interested in learning <a href="http://regexone.com/">regexone.com</a> seems to be a good tutorial. You can also use <a href="https://www.debuggex.com/">debuggex.com</a> if you want to try them out and see how they work.
       </div>
     </div>
   </body>
